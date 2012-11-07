@@ -1,0 +1,11 @@
+*~
+*.pyc
+.rope*
+build
+*.so
+*.c
+*.pik
+build
+doc/build
+*.egg-info
+dist
