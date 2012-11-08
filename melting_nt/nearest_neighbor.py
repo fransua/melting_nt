@@ -1,10 +1,10 @@
 """
 07 Nov 2012
 
-computes DNA melting point according to Nearest-Neighbor method [SanataLucia1998]_
+computes DNA melting point according to Nearest-Neighbor method [SantaLucia1998]_
 
 
-.. [SantaLucia1998] SantaLucia, J., Allawi, H. T., & Seneviratne, P. a. (1996). Improved nearest-neighbor parameters for predicting DNA duplex stability. Biochemistry, 35(11), 3555–62. doi:10.1021/bi951907q
+.. [SantaLucia1998] SantaLucia, J., Allawi, H. T., & Seneviratne, P. a. (1996). Improved nearest-neighbor parameters for predicting DNA duplex stability. Biochemistry, 35(11), 3555-62. doi:10.1021/bi951907q
 
 Note:
 * conversion from paper's tables:
@@ -91,7 +91,7 @@ def oligo_Tm(seq, method='SAL1996', dna_conc=.2, corrector=4, verbose=False):
     computes melting temperature of a given sequence.
     TODO: take into account Na+ concentration?
 
-    :argument seq: a 5'->3' DNA sequence. I it assumed that we work with double strand DNA
+    :argument seq: a 5'->3' DNA sequence. It assumes that we work with double strand DNA
     :argument SAL1996 method: parameters for the Nearest Neighbor algorithm
     """
     nn_params = get_nn_params(method)
@@ -105,7 +105,6 @@ def oligo_Tm(seq, method='SAL1996', dna_conc=.2, corrector=4, verbose=False):
         bp = seq[pos:pos+2]
         delta_Hd += nn_params[bp]['H']
         delta_Sd += nn_params[bp]['S']
-        print bp, nn_params[bp]['S']
     # delta Hi and delta Si
     delta_Hi = delta_Si = 0
     if not len(seq.translate(None, 'AT')):
