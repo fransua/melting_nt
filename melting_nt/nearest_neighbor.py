@@ -1,10 +1,11 @@
 """
 07 Nov 2012
 
-computes DNA melting point according to Nearest-Neighbor method [SantaLucia1998]_
-
+computes DNA melting point according to Nearest-Neighbor method
+[SantaLucia1998]_ and [SantaLucia2004]_
 
 .. [SantaLucia1998] SantaLucia, J., Allawi, H. T., & Seneviratne, P. a. (1996). Improved nearest-neighbor parameters for predicting DNA duplex stability. Biochemistry, 35(11), 3555-62. doi:10.1021/bi951907q
+.. [SantaLucia2004] SantaLucia, J., & Hicks, D. (2004). The thermodynamics of DNA structural motifs. Annual review of biophysics and biomolecular structure, 33, 415–40. doi:10.1146/annurev.biophys.32.110601.141800
 
 Note:
 * conversion from paper's tables:
@@ -23,7 +24,18 @@ from string import maketrans
 
 REV = maketrans('ATGC','TACG')
 
+# NOTE: minimum values of enthalpy/entropy are returned if sequence contains N
+
 SAL1996 = {
+    'AN':   {'H':  -6100.0, 'S': -15.6},
+    'TN':   {'H':  -6100.0, 'S': -15.6},
+    'GN':   {'H':  -6100.0, 'S': -15.6},
+    'CN':   {'H':  -6100.0, 'S': -15.6},
+    'NN':   {'H':  -6100.0, 'S': -15.6},
+    'NA':   {'H':  -6100.0, 'S': -15.6},
+    'NT':   {'H':  -6100.0, 'S': -15.6},
+    'NG':   {'H':  -6100.0, 'S': -15.6},
+    'NC':   {'H':  -6100.0, 'S': -15.6},
     'AA':   {'H':  -8400.0, 'S': -23.6},
     'AT':   {'H':  -6500.0, 'S': -18.8},
     'AG':   {'H':  -6100.0, 'S': -16.1},
@@ -47,6 +59,15 @@ SAL1996 = {
     }
 
 SAL2004 = {
+    'AN':   {'H':  -7200.0, 'S': -19.9},
+    'TN':   {'H':  -7200.0, 'S': -19.9},
+    'GN':   {'H':  -7200.0, 'S': -19.9},
+    'CN':   {'H':  -7200.0, 'S': -19.9},
+    'NN':   {'H':  -7200.0, 'S': -19.9},
+    'NA':   {'H':  -7200.0, 'S': -19.9},
+    'NT':   {'H':  -7200.0, 'S': -19.9},
+    'NG':   {'H':  -7200.0, 'S': -19.9},
+    'NC':   {'H':  -7200.0, 'S': -19.9},
     'AA':   {'H':  -7600.0, 'S': -21.3},
     'AT':   {'H':  -7200.0, 'S': -20.4},
     'AG':   {'H':  -7800.0, 'S': -21.0},
@@ -69,15 +90,19 @@ SAL2004 = {
     'symm': {'H':      0.0, 'S': -1.40}
     }
 
+
 def delta_G(delta_H, delta_S, temp=37):
     return (delta_H - delta_S * (temp + 273.15)) / 1000
+
 
 def reverse(seq):
     return seq.translate(REV)
 
+
 def is_symmetric(seq, len_seq):
     half = int(len_seq/2)
     return seq[:half] == reverse(seq[-half:])[::-1]
+
 
 def get_nn_params(method):
     if method=='SAL1996':
@@ -85,6 +110,7 @@ def get_nn_params(method):
     elif method=='SAL2004':
         return SAL2004
     Exception('Method %s not implemented yet\n' % method)
+
 
 def oligo_Tm(seq, method='SAL1996', dna_conc=.2, corrector=4, verbose=False):
     """

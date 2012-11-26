@@ -10,10 +10,14 @@ computes DNA melting point according to Phenomenological method [Khandelwal2010]
 
 from math import log
 
-ENERGY = {'AA':  5, 'AT':  7, 'AG':  8, 'AC': 10,
-          'TA':  4, 'TT':  5, 'TG':  7, 'TC':  8,
-          'GA':  8, 'GT': 10, 'GG': 11, 'GC': 13,
-          'CA':  7, 'CT':  8, 'CG': 10, 'CC': 11}
+# minimum possible value given to base pairs containing N
+
+ENERGY = {'AA':  5, 'AT':  7, 'AG':  8, 'AC': 10, 'AN': 4,
+          'TA':  4, 'TT':  5, 'TG':  7, 'TC':  8, 'TN': 4,
+          'GA':  8, 'GT': 10, 'GG': 11, 'GC': 13, 'GN': 4,
+          'CA':  7, 'CT':  8, 'CG': 10, 'CC': 11, 'CN': 4,
+          'NA':  4, 'NT':  4, 'NG':  4, 'NC':  4, 'NN': 4,
+          }
 
 
 def oligo_Tm(seq, salt_conc=0.22, dna_conc=2.0):
